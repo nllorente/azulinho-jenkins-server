@@ -6,7 +6,11 @@ vagrant_plugins = { 'ansible' => '0.2.0' ,
                     'vagrant-serverspec' => '0.1.0',
                     'vagrant-hostsupdater' => '0.0.11'}
 
-ansible_roles = [ 'Azulinho.azulinho-google-dns' ]
+ansible_roles = [ 'Azulinho.azulinho-google-dns',
+                  'Azulinho.azulinho-yum-repo-epel',
+                  'Azulinho.azulinho-java-openjdk-jdk',
+                  'Azulinho.azulinho-yum-repo-jenkins',
+                  'Azulinho.azulinho-yum-plugin-versionlock']
 
 task :default => ['setup', 'vagrant_up'] do
 

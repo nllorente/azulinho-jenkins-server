@@ -8,5 +8,9 @@ galaxy_info:
       versions: 6
   categories:
     - packaging
-dependencies: []
+dependencies:
+  - Azulinho.azulinho-yum-repo-epel
+  - Azulinho.azulinho-java-openjdk-jdk
+  - Azulinho.azulinho-yum-repo-jenkins
+  - Azulinho.azulinho-yum-plugin-versionlock
 

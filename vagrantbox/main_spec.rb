@@ -21,6 +21,10 @@ describe package('jenkins') do
   it { should be_installed }
 end
 
+describe file('/etc/default/jenkins') do
+    it { should contain '8080' }
+end
+
 describe file('/var/lib/jenkins/config.xml') do
     it { should be_owned_by 'jenkins' }
     it { should be_grouped_into 'jenkins' }

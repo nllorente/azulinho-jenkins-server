@@ -42,10 +42,11 @@
 #
 - name: Configure Jenkins Port
   sudo: yes
-  when: port is defined
+  when: jenkins['port'] is defined
   lineinfile: dest=/etc/default/jenkins
     regexp=^HTTP_PORT=
     line=HTTP_PORT={{ jenkins['port'] }}
+    create=yes
   tags: ['jenkins']
 
 - name: Configure Jenkins Prefix

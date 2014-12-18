@@ -28,45 +28,44 @@
   tags: ['jenkins', 'versionlock']
 
 - name: Ensure jenkins is installed
-  yum: name=jenkins-{{ jenkins['version']}}
+  yum: name=jenkins-{{ azulinho_jenkins_server['version']}}
     enablerepo=epel
     state=present
   register: _jenkins_install
   tags: ['jenkins', 'versionlock']
 
 - name: lock jenkins
-  command: yum versionlock jenkins-{{ jenkins['version'] }}
+  command: yum versionlock jenkins-{{ azulinho_jenkins_server['version'] }}
   tags: ['jenkins', 'versionlock']
 
 # configure jenkins to our liking
 #
 - name: Configure Jenkins Port
   sudo: yes
-  when: jenkins['port'] is defined
+  when: azulinho_jenkins_server['port'] is defined
   lineinfile: dest=/etc/default/jenkins
     regexp=^HTTP_PORT=
-    line=HTTP_PORT={{ jenkins['port'] }}
+    line=HTTP_PORT={{ azulinho_jenkins_server['port'] }}
     create=yes
   tags: ['jenkins']
 
 - name: Configure Jenkins Prefix
   sudo: yes
-  when: prefix is defined
+  when: azulinho_jenkins_server['prefix'] is defined
   lineinfile: dest=/etc/default/jenkins
     regexp=^PREFIX=
-    line=PREFIX={{ jenkins['prefix'] }}
+    line=PREFIX={{ azulinho_jenkins_server['prefix'] }}
   tags: ['jenkins']
 
 - name: Configure Jenkins E-mail
   sudo: yes
-  when: email is defined
+  when: azulinho_jenkins_server['email'] is defined
   template: src=hudson.tasks.Mailer.xml.j2
-    dest={{ jenkins['lib'] }}/hudson.tasks.Mailer.xml
+    dest={{ azulinho_jenkins_server['lib'] }}/hudson.tasks.Mailer.xml
     owner=jenkins
     group=jenkins
     mode=0644
   tags: ['jenkins']
-
 
 - name: Deploy main jenkins config.xml file
   template: dest=/var/lib/jenkins/config.xml
@@ -93,22 +92,22 @@
 # # wish there was a jenkins-cli rpm package
 #
 - name: "{{ startup_delay_s | default(90) }}s delay while starting Jenkins"
-  wait_for: port={{ jenkins['port'] }}
-    delay={{ startup_delay_s | default(90) }}
+  wait_for: port={{ azulinho_jenkins_server['port'] }}
+    delay={{ azulinho_jenkins_server['startup_delay_s'] | default(90) }}
   when: _jenkins_install.changed
   tags: ['jenkins']
 
 # Create Jenkins CLI destination directory
 - name: "Create Jenkins CLI destination directory"
-  file: path={{ jenkins['dest'] }}
+  file: path={{ azulinho_jenkins_server['dest'] }}
     state=directory
   sudo: yes
   tags: ['jenkins', 'jenkinscli']
 
 # Get Jenkins CLI from localhost
 - name: Get Jenkins CLI
-  get_url: url=http://localhost:{{ jenkins['port'] }}/jnlpJars/jenkins-cli.jar
-    dest={{ jenkins['cli_dest'] }}
+  get_url: url=http://localhost:{{ azulinho_jenkins_server['port'] }}/jnlpJars/jenkins-cli.jar
+    dest={{ azulinho_jenkins_server['cli_dest'] }}
     mode=0440
   sudo: yes
   tags: ['jenkins', 'jenkinscli']

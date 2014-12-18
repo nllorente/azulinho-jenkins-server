@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <hudson>
-{% set cfg=jenkins %}
+{% set cfg=azulinho_jenkins_server %}
   <disabledAdministrativeMonitors/>
   <version>1.0</version>
   <numExecutors>{{ cfg['numExecutors'] | default(2) }}</numExecutors>

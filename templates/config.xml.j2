@@ -6,8 +6,6 @@
   <numExecutors>{{ cfg['numExecutors'] | default(2) }}</numExecutors>
   <mode>{{ cfg['mode'] | default('NORMAL') }}</mode>
   <useSecurity>{{ cfg['useSecurity'] | default('true') }}</useSecurity>
-  <authorizationStrategy class="hudson.security.AuthorizationStrategy$Unsecured"/>
-  <securityRealm class="hudson.security.SecurityRealm$None"/>
   <disableRememberMe>{{ cfg['disableRememberMe'] | default('false') }}</disableRememberMe>
   <projectNamingStrategy class="jenkins.model.ProjectNamingStrategy$DefaultProjectNamingStrategy"/>
   <workspaceDir>{{ cfg['workspaceDir'] | default('${ITEM_ROOTDIR}/workspace') }}</workspaceDir>
